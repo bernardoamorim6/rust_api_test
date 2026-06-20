@@ -1,7 +1,10 @@
 use diesel::prelude::*;
 use dotenvy::dotenv;
+pub(crate) use models::*;
+pub(crate) use routes::*;
 use std::env;
 pub mod models;
+pub mod routes;
 pub mod schema;
 
 pub fn establish_connection() -> PgConnection {
