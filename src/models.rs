@@ -15,7 +15,7 @@ pub struct Post {
     pub body: String,
 }
 
-enum PostResponse {
+pub enum PostResponse {
     OK,
     Created,
     JsonData(Vec<Post>),
@@ -31,7 +31,18 @@ impl IntoResponse for PostResponse {
     }
 }
 
-enum PostError {
+pub enum PostError {
     BadRequest,
     InternalServerError,
+}
+
+impl IntoResponse for PostError {
+    fn into_response(self) -> Response {
+        match self {
+            Self::BadRequest => (StatusCode::BAD_REQUEST, "Bad Request").into_response(),
+            Self::InternalServerError => {
+                (StatusCode::INTERNAL_SERVER_ERROR, "Internal Database Error").into_response()
+            }
+        }
+    }
 }
