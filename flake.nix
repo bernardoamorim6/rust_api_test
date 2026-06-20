@@ -42,16 +42,13 @@
           # Make sure Diesel can find the postgres libraries at compile/run time
           shellHook = ''
             export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath runtimeDeps}:$LD_LIBRARY_PATH"
-            
-            # Helpful aliases for your specific workflow
-            alias db-start="docker run --name rust-api-db -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=password -e POSTGRES_DB=rust_api_test -p 5432:5432 -d postgres:latest"
-            alias db-stop="docker stop rust-api-db && docker rm rust-api-db"
             export DATABASE_URL="postgres://postgres:password@localhost:5432/rust_api_test"
 
+            # Universal aliases that work flawlessly across Fish, Bash, and Zsh
+            alias db-start="docker compose up -d"
+            alias db-stop="docker compose down"
+
             echo "Rust & Diesel Dev Environment Loaded!"
-            echo "Quick commands:"
-            echo "  db-start  -> Spin up Postgres Docker container"
-            echo "  db-stop   -> Stop and remove the Postgres container"
           '';
         };
       }
